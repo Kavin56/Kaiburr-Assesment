@@ -144,22 +144,25 @@ curl -X PUT "http://localhost:8081/tasks/{taskId}/execute"
 - **Search Bar**: Real-time search by task name
 - **Action Buttons**: Create, execute, and delete tasks
 - **Status Indicators**: Shows recent execution timestamps
+<img width="1905" height="854" alt="image" src="https://github.com/user-attachments/assets/aefb16f9-e086-4036-9bb4-b8d29930e00a" />
+
 
 ### Task Creation
 - **Form Validation**: Ensures required fields are filled
 - **Command Preview**: Shows the command before saving
 - **Owner Assignment**: Track who created each task
+<img width="1919" height="859" alt="image" src="https://github.com/user-attachments/assets/64966c36-779e-4f07-b22f-af59163bed89" />
+
 
 ### Command Execution
 - **Modal Display**: Shows execution results in a popup
 - **JSON Output**: Complete task data with execution history
 - **Command Output**: Raw shell command results
 - **Execution Metadata**: Start time, end time, and duration
+<img width="1919" height="858" alt="image" src="https://github.com/user-attachments/assets/583bfd6e-c4b5-42c8-99ce-23d0d5e8f2fd" />
 
 ### Responsive Design
-- **Mobile Friendly**: Works on phones and tablets
 - **Desktop Optimized**: Full-featured interface on larger screens
-- **Touch Support**: Optimized for touch interactions
 
 ## 🛡️ Security Features
 
