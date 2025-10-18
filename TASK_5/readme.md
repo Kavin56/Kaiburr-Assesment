@@ -119,12 +119,12 @@ Models were evaluated using:
 
 Confusion matrices can be included as images below:
 
-```
+
 <img width="749" height="610" alt="download" src="https://github.com/user-attachments/assets/c2e8b677-8027-4517-803b-12a87651dd86" />
 <img width="891" height="347" alt="Screenshot 2025-10-19 002033" src="https://github.com/user-attachments/assets/00a6ca57-60f1-45b5-89d1-9f03f6e3a879" />
 
 
-```
+
 
 ### ⚖️ Class Imbalance Analysis
 
