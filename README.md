@@ -180,31 +180,136 @@ curl -X PUT "http://localhost:8081/tasks/{taskId}/execute"
 
 ## 🚀 Development Workflow
 
-### How the Unified Development Setup Works
+### How the Unified Command Works - Deep Dive
 
-The application uses **concurrently** to run both backend and frontend simultaneously:
+The magic behind `npm run dev` is the **concurrently** package that runs multiple commands simultaneously in a single terminal.
 
+#### 1. Root Package.json Configuration
 ```json
 {
+  "name": "kaiburr-assessment",
   "scripts": {
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "backend": "cd TASK_1 && mvn spring-boot:run",
-    "frontend": "cd TASK_3 && npm run dev"
+    "frontend": "cd TASK_3 && npm run dev",
+    "install-all": "cd TASK_3 && npm install",
+    "build": "cd TASK_3 && npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }
 ```
 
-### Terminal Output
+#### 2. Command Execution Flow
 ```bash
-[0] > Backend (Spring Boot) - Red color
-[1] > Frontend (React) - Blue color
+# When you type: npm run dev
+# ↓ npm looks up the "dev" script
+# ↓ finds: "concurrently \"npm run backend\" \"npm run frontend\""
+# ↓ executes concurrently with two arguments:
 
-# Example output:
+concurrently "npm run backend" "npm run frontend"
+
+# ↓ concurrently expands each argument:
+# Argument 1: "npm run backend" → "cd TASK_1 && mvn spring-boot:run"
+# Argument 2: "npm run frontend" → "cd TASK_3 && npm run dev"
+
+# ↓ concurrently runs both commands simultaneously:
+# Process 1: cd TASK_1 && mvn spring-boot:run
+# Process 2: cd TASK_3 && npm run dev
+```
+
+#### 3. How Concurrently Works
+```bash
+# Concurrently creates two separate processes:
+Process 1 (Backend):
+├── Changes directory to TASK_1
+├── Runs: mvn spring-boot:run
+└── Outputs to terminal with [0] prefix
+
+Process 2 (Frontend):
+├── Changes directory to TASK_3  
+├── Runs: npm run dev
+└── Outputs to terminal with [1] prefix
+```
+
+#### 4. Terminal Output with Color Coding
+```bash
+[0] > kaiburr-assessment@1.0.0 backend
+[0] > cd TASK_1 && mvn spring-boot:run
+[0] 
+[1] > kaiburr-assessment@1.0.0 frontend  
+[1] > cd TASK_3 && npm run dev
+[1] 
 [1] VITE v5.4.20  ready in 392 ms
 [1] ➜  Local:   http://localhost:5173/
 [0] :: Spring Boot ::                (v3.3.3)
 [0] Tomcat started on port 8081 (http)
 ```
+
+**Legend:**
+- `[0]` = Backend (Spring Boot) - Red color in terminal
+- `[1]` = Frontend (React) - Blue color in terminal
+
+#### 5. Process Management
+```bash
+# Starting services:
+npm run dev          # Starts both services
+npm run backend      # Starts only backend
+npm run frontend     # Starts only frontend
+
+# Stopping services:
+Ctrl + C             # Stops both services simultaneously
+# OR
+Ctrl + C + C         # Force stop if needed
+```
+
+#### 6. Why This Setup is Powerful
+```bash
+# Traditional approach (2 terminals):
+Terminal 1: cd TASK_1 && mvn spring-boot:run
+Terminal 2: cd TASK_3 && npm run dev
+
+# Unified approach (1 terminal):
+npm run dev
+```
+
+**Benefits:**
+- ✅ **Single Command**: One command starts everything
+- ✅ **Color Coded**: Easy to distinguish backend vs frontend logs
+- ✅ **Synchronized**: Both services start together
+- ✅ **Easy Debugging**: All logs in one place
+- ✅ **Cross-Platform**: Works on Windows, Mac, Linux
+- ✅ **Process Management**: Stop both services with one Ctrl+C
+
+#### 7. Installation Process
+```bash
+# Install concurrently package:
+npm install concurrently --save-dev
+
+# This adds to package.json:
+{
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
+```
+
+#### 8. Advanced Configuration
+```json
+{
+  "scripts": {
+    "dev": "concurrently --kill-others --prefix \"[{name}]\" --names \"backend,frontend\" \"npm run backend\" \"npm run frontend\"",
+    "dev:verbose": "concurrently --kill-others --prefix-colors \"bgRed.bold,bgBlue.bold\" \"npm run backend\" \"npm run frontend\""
+  }
+}
+```
+
+**Advanced Options:**
+- `--kill-others`: Kill other processes if one fails
+- `--prefix "[{name}]"`: Custom prefix format
+- `--names "backend,frontend"`: Custom names for processes
+- `--prefix-colors`: Custom colors for each process
 
 ### Available Commands
 ```bash
