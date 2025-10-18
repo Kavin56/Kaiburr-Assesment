@@ -1,168 +1,492 @@
-# Consumer Complaint Text Classification 📝
+# Kaiburr Assessment - Task Management System
 
-## Table of Contents
+A full-stack web application for managing and executing shell commands through a modern web interface. The system consists of a Spring Boot REST API backend with MongoDB storage and a React frontend with TypeScript and Ant Design.
 
-1. [Project Overview](#project-overview)
-2. [Problem Statement](#problem-statement)
-3. [Dataset](#dataset)
-4. [Preprocessing](#preprocessing)
-5. [Modeling](#modeling)
+## 🚀 Quick Start
 
-   * [RNN](#rnn)
-   * [BiLSTM](#bilstm)
-   * [BERT](#bert)
-6. [Evaluation](#evaluation)
-7. [Results](#results)
-8. [Conclusion](#conclusion)
-9. [Future Work](#future-work)
+### Prerequisites
+- **Java 17+** - For the backend API
+- **Maven 3.6+** - For building the Java application
+- **Node.js 18+** - For the frontend application
+- **MongoDB 4.4+** - For data storage
 
----
+### One-Command Setup
+```bash
+# Clone and navigate to the project
+cd KAIBURR
 
-## Project Overview 🌟
-
-This project focuses on automatically classifying consumer complaints into different product categories using Natural Language Processing (NLP) techniques. It leverages deep learning models such as **RNN**, **BiLSTM**, and Transformer-based models (**BERT**) for accurate text classification.
-
----
-
-## Problem Statement ❗
-
-Consumers often submit complaints regarding financial products such as mortgages, loans, and credit reporting issues.
-Manually categorizing these complaints is **time-consuming** and **error-prone**.
-The goal of this project is to:
-
-* ✅ Automatically classify consumer complaints into correct product categories
-* ⏱️ Improve processing efficiency for consumer protection agencies
-* 📊 Demonstrate the performance of sequential and transformer-based models on textual data
-
----
-
-## Dataset 📂
-
-The dataset is sourced from the **Consumer Financial Protection Bureau (CFPB)** open data repository.
-
-**Key points:**
-
-* Contains consumer complaints across multiple financial products.
-* Sample used for this project: **2000 rows** (can be scaled for better performance).
-* Columns used:
-
-  * `product`: The category of the complaint
-  * `consumer complaint narrative`: Text of the complaint
-
-**Selected categories:**
-
-* Credit reporting, repair, or other
-* Debt collection
-* Consumer Loan
-* Mortgage
-
----
-
-## Preprocessing 🧹
-
-Text preprocessing is crucial for NLP tasks. The following steps were performed:
-
-1. 🔡 Lowercasing all text
-2. 🚫 Removing URLs, emails, HTML tags, and numbers
-3. ✍️ Expanding contractions (e.g., “can't” → “cannot”)
-4. 🧽 Removing punctuation, emojis, and extra whitespace
-5. 🔗 Tokenization (using simple split or NLTK)
-6. 🛑 Stopword removal (including custom financial stopwords)
-7. ✨ Lemmatization to reduce words to their base forms
-
-After preprocessing, the text was vectorized using **TF-IDF** or tokenized sequences for deep learning models.
-
----
-
-## Modeling 🤖
-
-### RNN
-
-* **Architecture**: Embedding layer → Simple RNN → Dense output layer
-* **Input**: Tokenized complaint sequences
-* **Loss Function**: Categorical Crossentropy
-* **Optimizer**: Adam
-* Handles sequential patterns in text but may struggle with long-term dependencies.
-
-### BiLSTM
-
-* **Architecture**: Embedding layer → Bidirectional LSTM → Dense output layer
-* **Advantage**: Captures both past and future context in text sequences.
-* More effective than simple RNNs for longer complaint narratives.
-
-### BERT
-
-* **Architecture**: Pretrained BERT encoder → Dense classification layer
-* **Input**: Tokenized and padded sequences using BERT tokenizer
-* **Advantage**: Transformer-based contextual embeddings capture rich semantic information.
-* Typically achieves the best performance but requires more computational resources.
-
----
-
-## Evaluation 📊
-
-Models were evaluated using:
-
-* **Accuracy**
-* **Precision, Recall, F1-Score**
-* **Confusion Matrix**
-
----
-
-## Results 🏆
-
-| Model     | Accuracy (%) |
-| --------- | ------------ |
-| 🧠 RNN    | **91.37%**   |
-| 🔁 BiLSTM | **94.22%**   |
-| 🤖 BERT   | **94.79%**   |
-
-Confusion matrices can be included as images below:
-
-```
-<img width="749" height="610" alt="download" src="https://github.com/user-attachments/assets/46d6aff0-fe84-4c04-a37f-9c598a7f2aa5" />
-<img width="891" height="347" alt="Screenshot 2025-10-19 002033" src="https://github.com/user-attachments/assets/5ca56e66-4d73-499b-9810-4077fe35ff50" />
-
-
+# Install dependencies and start both services
+npm install
+npm run dev
 ```
 
-### ⚖️ Class Imbalance Analysis
+This starts:
+- **Backend API**: `http://localhost:8081`
+- **Frontend Web App**: `http://localhost:5173`
 
-Even though the models achieved **high accuracy**, there exists a **significant class imbalance** in the dataset.
+## 🎯 What This Application Does
 
-From the confusion matrix, it’s evident that:
+### Core Functionality
+This is a **Task Management System** that allows users to:
 
-* **“Credit reporting, repair, or other”** has a **very large number of samples**
-* **“Consumer Loan”** is **highly underrepresented** (very few samples)
-* The model tends to **predict the majority class** more frequently
+- **Create Tasks**: Define shell commands with metadata (name, owner, command)
+- **Execute Commands**: Run shell commands and capture their output
+- **Search & Filter**: Find tasks by name or other criteria
+- **View History**: See execution results and timestamps
+- **Manage Tasks**: Delete tasks and update information
 
-This imbalance can cause misleadingly high accuracy but poor recall and precision for smaller classes like *Consumer Loan*.
+### Real-World Use Cases
+- **DevOps Automation**: Store and execute deployment scripts
+- **System Administration**: Manage server maintenance commands
+- **Development Workflows**: Run build, test, and deployment commands
+- **Team Collaboration**: Share common commands across team members
 
-### 🧩 Possible Solutions
+## 🏗️ System Architecture
 
-Since the imbalance is **very large**, adding synthetic samples to smaller classes (like *Consumer Loan*) may not yield realistic data.
-Instead, the **recommended approach** is:
+### Backend (Spring Boot API)
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   React Frontend│◄──►│  Spring Boot API│◄──►│    MongoDB      │
+│   (Port 5173)   │    │   (Port 8081)   │    │  (Port 27017)   │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
 
-* 🔻 **Reduce samples** from the dominant class (“Credit reporting, repair, or other”) to balance proportions.
-* ⚖️ **Apply class weighting** in the loss function to penalize misclassification of smaller classes.
-* 🔍 **Use balanced evaluation metrics** (Macro F1-score, Balanced Accuracy) for fair assessment.
+**Technology Stack:**
+- **Framework**: Spring Boot 3.3.3
+- **Database**: MongoDB with Spring Data
+- **Security**: Command validation and CORS protection
+- **Build Tool**: Maven with Java 17
+
+### Frontend (React Web App)
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    React Web Interface                      │
+├─────────────────────────────────────────────────────────────┤
+│  • Task Creation Form    • Search & Filter                 │
+│  • Task Management Table • Command Execution Results       │
+│  • Real-time Updates     • Responsive Design               │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Technology Stack:**
+- **Framework**: React 18 with TypeScript
+- **UI Library**: Ant Design 5
+- **Build Tool**: Vite
+- **HTTP Client**: Axios
+
+## 📊 Data Model
+
+### Task Object Structure
+```json
+{
+  "id": "unique-task-id",
+  "name": "Task Name",
+  "owner": "Task Owner",
+  "command": "shell command to execute",
+  "taskExecutions": [
+    {
+      "startTime": "2025-10-18T05:41:08.157Z",
+      "endTime": "2025-10-18T05:41:08.214Z",
+      "output": "command output text"
+    }
+  ]
+}
+```
+
+### Database Schema
+- **Collection**: `tasks`
+- **Storage**: MongoDB document store
+- **Indexing**: Automatic on `id` field
+- **Relationships**: Self-contained documents
+
+## 🔧 API Endpoints
+
+### Task Management
+```bash
+# List all tasks
+GET /tasks
+
+# Get specific task
+GET /tasks?id={taskId}
+
+# Search tasks by name
+GET /tasks?name={searchTerm}
+
+# Create or update task
+PUT /tasks
+
+# Delete task
+DELETE /tasks?id={taskId}
+
+# Execute task command
+PUT /tasks/{taskId}/execute
+```
+
+### Example API Usage
+```bash
+# Create a new task
+curl -X PUT "http://localhost:8081/tasks" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "List Files",
+    "owner": "John Doe",
+    "command": "ls -la"
+  }'
+
+# Execute the task
+curl -X PUT "http://localhost:8081/tasks/{taskId}/execute"
+```
+
+## 🎨 User Interface Features
+
+### Dashboard
+- **Task Table**: Displays all tasks with key information
+- **Search Bar**: Real-time search by task name
+- **Action Buttons**: Create, execute, and delete tasks
+- **Status Indicators**: Shows recent execution timestamps
+
+### Task Creation
+- **Form Validation**: Ensures required fields are filled
+- **Command Preview**: Shows the command before saving
+- **Owner Assignment**: Track who created each task
+
+### Command Execution
+- **Modal Display**: Shows execution results in a popup
+- **JSON Output**: Complete task data with execution history
+- **Command Output**: Raw shell command results
+- **Execution Metadata**: Start time, end time, and duration
+
+### Responsive Design
+- **Mobile Friendly**: Works on phones and tablets
+- **Desktop Optimized**: Full-featured interface on larger screens
+- **Touch Support**: Optimized for touch interactions
+
+## 🛡️ Security Features
+
+### Command Validation
+- **Dangerous Command Blocking**: Prevents execution of harmful commands
+- **Input Sanitization**: Validates all user inputs
+- **Safe Command List**: Whitelist approach for allowed commands
+
+### CORS Protection
+- **Frontend Origin**: Only allows requests from `localhost:5173`
+- **Method Restrictions**: Limits to safe HTTP methods
+- **Header Validation**: Ensures proper request headers
+
+### Error Handling
+- **Graceful Failures**: User-friendly error messages
+- **Logging**: Comprehensive error logging for debugging
+- **Recovery**: Automatic retry mechanisms where appropriate
+
+## 🚀 Development Workflow
+
+### How the Unified Command Works - Deep Dive
+
+The magic behind `npm run dev` is the **concurrently** package that runs multiple commands simultaneously in a single terminal.
+
+#### 1. Root Package.json Configuration
+```json
+{
+  "name": "kaiburr-assessment",
+  "scripts": {
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "cd TASK_1 && mvn spring-boot:run",
+    "frontend": "cd TASK_3 && npm run dev",
+    "install-all": "cd TASK_3 && npm install",
+    "build": "cd TASK_3 && npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
+```
+
+#### 2. Command Execution Flow
+```bash
+# When you type: npm run dev
+# ↓ npm looks up the "dev" script
+# ↓ finds: "concurrently \"npm run backend\" \"npm run frontend\""
+# ↓ executes concurrently with two arguments:
+
+concurrently "npm run backend" "npm run frontend"
+
+# ↓ concurrently expands each argument:
+# Argument 1: "npm run backend" → "cd TASK_1 && mvn spring-boot:run"
+# Argument 2: "npm run frontend" → "cd TASK_3 && npm run dev"
+
+# ↓ concurrently runs both commands simultaneously:
+# Process 1: cd TASK_1 && mvn spring-boot:run
+# Process 2: cd TASK_3 && npm run dev
+```
+
+#### 3. How Concurrently Works
+```bash
+# Concurrently creates two separate processes:
+Process 1 (Backend):
+├── Changes directory to TASK_1
+├── Runs: mvn spring-boot:run
+└── Outputs to terminal with [0] prefix
+
+Process 2 (Frontend):
+├── Changes directory to TASK_3  
+├── Runs: npm run dev
+└── Outputs to terminal with [1] prefix
+```
+
+#### 4. Terminal Output with Color Coding
+```bash
+[0] > kaiburr-assessment@1.0.0 backend
+[0] > cd TASK_1 && mvn spring-boot:run
+[0] 
+[1] > kaiburr-assessment@1.0.0 frontend  
+[1] > cd TASK_3 && npm run dev
+[1] 
+[1] VITE v5.4.20  ready in 392 ms
+[1] ➜  Local:   http://localhost:5173/
+[0] :: Spring Boot ::                (v3.3.3)
+[0] Tomcat started on port 8081 (http)
+```
+
+**Legend:**
+- `[0]` = Backend (Spring Boot) - Red color in terminal
+- `[1]` = Frontend (React) - Blue color in terminal
+
+#### 5. Process Management
+```bash
+# Starting services:
+npm run dev          # Starts both services
+npm run backend      # Starts only backend
+npm run frontend     # Starts only frontend
+
+# Stopping services:
+Ctrl + C             # Stops both services simultaneously
+# OR
+Ctrl + C + C         # Force stop if needed
+```
+
+#### 6. Why This Setup is Powerful
+```bash
+# Traditional approach (2 terminals):
+Terminal 1: cd TASK_1 && mvn spring-boot:run
+Terminal 2: cd TASK_3 && npm run dev
+
+# Unified approach (1 terminal):
+npm run dev
+```
+
+**Benefits:**
+- ✅ **Single Command**: One command starts everything
+- ✅ **Color Coded**: Easy to distinguish backend vs frontend logs
+- ✅ **Synchronized**: Both services start together
+- ✅ **Easy Debugging**: All logs in one place
+- ✅ **Cross-Platform**: Works on Windows, Mac, Linux
+- ✅ **Process Management**: Stop both services with one Ctrl+C
+
+#### 7. Installation Process
+```bash
+# Install concurrently package:
+npm install concurrently --save-dev
+
+# This adds to package.json:
+{
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
+```
+
+#### 8. Advanced Configuration
+```json
+{
+  "scripts": {
+    "dev": "concurrently --kill-others --prefix \"[{name}]\" --names \"backend,frontend\" \"npm run backend\" \"npm run frontend\"",
+    "dev:verbose": "concurrently --kill-others --prefix-colors \"bgRed.bold,bgBlue.bold\" \"npm run backend\" \"npm run frontend\""
+  }
+}
+```
+
+**Advanced Options:**
+- `--kill-others`: Kill other processes if one fails
+- `--prefix "[{name}]"`: Custom prefix format
+- `--names "backend,frontend"`: Custom names for processes
+- `--prefix-colors`: Custom colors for each process
+
+### Available Commands
+```bash
+npm run dev          # Start both backend and frontend
+npm run backend      # Start only the backend API
+npm run frontend     # Start only the frontend web app
+npm run install-all  # Install all dependencies
+npm run build        # Build frontend for production
+```
+
+## 📁 Project Structure
+
+```
+KAIBURR/
+├── TASK_1/                    # Backend API
+│   ├── src/main/java/         # Java source code
+│   │   └── com/kaiburr/task1/
+│   │       ├── controller/    # REST endpoints
+│   │       ├── model/         # Data models
+│   │       ├── service/       # Business logic
+│   │       ├── repo/          # Database access
+│   │       └── config/        # Configuration
+│   ├── src/main/resources/    # Configuration files
+│   └── pom.xml               # Maven dependencies
+├── TASK_3/                    # Frontend Web App
+│   ├── src/                   # React source code
+│   │   ├── main.tsx          # Application entry point
+│   │   └── ui/               # React components
+│   ├── package.json          # Node.js dependencies
+│   └── vite.config.ts        # Build configuration
+├── TASK_4/                    # CI/CD Pipeline
+│   └── .github/workflows/     # GitHub Actions
+├── package.json              # Root package.json
+└── README.md                 # This file
+```
+
+## 🔄 Development Process
+
+### Local Development
+1. **Start Services**: `npm run dev`
+2. **Make Changes**: Edit code in either backend or frontend
+3. **Hot Reload**: Changes automatically reflected
+4. **Test Features**: Use the web interface to test functionality
+
+### Code Changes
+- **Backend**: Java changes require restart
+- **Frontend**: React changes update automatically
+- **Database**: MongoDB persists data between restarts
+
+### Testing
+- **API Testing**: Use curl commands or Postman
+- **UI Testing**: Use the web interface
+- **Integration Testing**: Test full workflow end-to-end
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+#### Services Won't Start
+```bash
+# Check if ports are available
+netstat -an | findstr ":8081\|:5173"
+
+# Kill processes using ports
+taskkill /PID <PID> /F
+```
+
+#### Database Connection Issues
+```bash
+# Check MongoDB status
+Get-Service -Name MongoDB
+
+# Test MongoDB connection
+mongosh --eval "db.runCommand({connectionStatus: 1})"
+```
+
+#### Build Failures
+```bash
+# Clean and rebuild
+mvn clean compile
+npm run build
+```
+
+### Getting Help
+1. **Check Logs**: Look at terminal output for error messages
+2. **Verify Prerequisites**: Ensure all required software is installed
+3. **Test Individual Components**: Run backend and frontend separately
+4. **Check Network**: Ensure ports are not blocked by firewall
+
+## 🚀 Production Deployment
+
+### Backend Deployment
+```bash
+# Build JAR file
+mvn clean package
+
+# Run in production
+java -jar target/task1-api-0.0.1-SNAPSHOT.jar
+```
+
+### Frontend Deployment
+```bash
+# Build for production
+npm run build
+
+# Deploy dist/ folder to web server
+```
+
+### Environment Configuration
+```bash
+# Backend environment variables
+export SPRING_DATA_MONGODB_URI=mongodb://your-mongo-host:27017/kaiburr
+export SERVER_PORT=8080
+
+# Frontend environment variables
+export VITE_API_URL=http://your-api-host:8080
+```
+
+## 📈 Performance & Scalability
+
+### Current Capabilities
+- **Concurrent Users**: Supports multiple simultaneous users
+- **Command Execution**: Handles shell commands safely
+- **Data Storage**: MongoDB scales horizontally
+- **Response Time**: Sub-second API responses
+
+### Optimization Features
+- **Connection Pooling**: Efficient database connections
+- **Caching**: Maven and npm dependency caching
+- **Hot Reload**: Fast development iteration
+- **Code Splitting**: Optimized frontend bundle sizes
+
+## 🔮 Future Enhancements
+
+### Potential Features
+- **User Authentication**: Login and user management
+- **Command Scheduling**: Cron-like task scheduling
+- **File Upload**: Support for script file uploads
+- **Team Collaboration**: Multi-user task sharing
+- **Audit Logging**: Detailed execution history
+- **API Rate Limiting**: Prevent abuse
+- **Docker Support**: Containerized deployment
+
+## 📚 Technology Documentation
+
+### Backend Technologies
+- [Spring Boot Documentation](https://spring.io/projects/spring-boot)
+- [Spring Data MongoDB](https://spring.io/projects/spring-data-mongodb)
+- [Maven Documentation](https://maven.apache.org/guides/)
+
+### Frontend Technologies
+- [React Documentation](https://react.dev/)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
+- [Ant Design Components](https://ant.design/components/overview)
+- [Vite Guide](https://vitejs.dev/guide/)
+
+### Database
+- [MongoDB Documentation](https://docs.mongodb.com/)
+- [MongoDB Java Driver](https://mongodb.github.io/mongo-java-driver/)
+
+## 🤝 Contributing
+
+### Development Setup
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+### Code Standards
+- **Java**: Follow Spring Boot conventions
+- **TypeScript**: Use strict type checking
+- **React**: Functional components with hooks
+- **Documentation**: Update README files as needed
 
 ---
 
-## Conclusion ✅
+**Built with ❤️ for the Kaiburr Assessment**
 
-* Deep learning models can effectively classify consumer complaints into product categories.
-* **BiLSTM** and **BERT** outperform simple RNNs due to better handling of context and semantics.
-* Despite high accuracy, the dataset suffers from **class imbalance**, heavily favoring one category.
-* In such cases, **reducing dominant class samples** is more practical than oversampling minority classes, given the large count differences.
-
----
-
-## Future Work 🚀
-
-* Expand dataset to include more balanced samples across categories
-* Experiment with class-weighted training for fairer learning
-* Fine-tune domain-specific BERT models for financial complaint data
-* Deploy as a **web app or REST API** for real-time classification 🌐
-
----
+This application demonstrates modern full-stack development practices with a focus on user experience, security, and maintainability.
