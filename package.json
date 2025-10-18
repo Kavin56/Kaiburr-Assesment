@@ -1,0 +1,18 @@
+{
+  "name": "kaiburr-assessment",
+  "version": "1.0.0",
+  "description": "Kaiburr Assessment - Task 1 (Backend) + Task 3 (Frontend)",
+  "scripts": {
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "cd TASK_1 && mvn spring-boot:run",
+    "frontend": "cd TASK_3 && npm run dev",
+    "install-all": "cd TASK_3 && npm install",
+    "build": "cd TASK_3 && npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": ["kaiburr", "assessment", "spring-boot", "react"],
+  "author": "Kaiburr Assessment",
+  "license": "MIT"
+}
