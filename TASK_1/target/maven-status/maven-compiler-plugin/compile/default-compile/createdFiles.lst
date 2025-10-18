@@ -1,0 +1,10 @@
+com\kaiburr\task1\Task1ApiApplication.class
+com\kaiburr\task1\service\TaskService.class
+com\kaiburr\task1\service\CommandValidator.class
+com\kaiburr\task1\model\TaskExecution.class
+com\kaiburr\task1\Server.class
+com\kaiburr\task1\model\Task.class
+com\kaiburr\task1\controller\TaskController.class
+com\kaiburr\task1\config\CorsConfig.class
+com\kaiburr\task1\repo\TaskRepository.class
+com\kaiburr\task1\ServerController.class
