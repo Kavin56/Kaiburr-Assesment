@@ -486,7 +486,3 @@ export VITE_API_URL=http://your-api-host:8080
 - **Documentation**: Update README files as needed
 
 ---
-
-**Built with ❤️ for the Kaiburr Assessment**
-
-This application demonstrates modern full-stack development practices with a focus on user experience, security, and maintainability.
