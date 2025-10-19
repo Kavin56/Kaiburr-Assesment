@@ -78,6 +78,7 @@ curl "http://localhost:8081/tasks"
   }
 ]
 ```
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/8b05eac8-731e-407e-8a14-69ca6c8432f9" />
 
 ### 2. Get Task by ID
 ```bash
@@ -94,6 +95,7 @@ curl "http://localhost:8081/tasks?id=68f32747420daa52641fec3a"
   "taskExecutions": []
 }
 ```
+<img width="1427" height="667" alt="image" src="https://github.com/user-attachments/assets/8cee3256-2fee-40ca-bbee-7c9aea2cb075" />
 
 ### 3. Search Tasks by Name
 ```bash
@@ -112,6 +114,7 @@ curl "http://localhost:8081/tasks?name=Hello"
   }
 ]
 ```
+<img width="1435" height="609" alt="image" src="https://github.com/user-attachments/assets/3b063d6e-dd46-42cd-8146-845abd1e006d" />
 
 ### 4. Create/Update Task
 ```bash
