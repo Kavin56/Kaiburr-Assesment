@@ -208,7 +208,7 @@ export default defineConfig({
 ### Modal Components
 - **New Task Modal**: Form for creating tasks
 - **Execution Result Modal**: Displays command output and task JSON
-<img width="1916" height="929" alt="image" src="https://github.com/user-attachments/assets/4e408c68-a91b-419a-83a9-b968ae866ab8" />
+<img width="1919" height="931" alt="image" src="https://github.com/user-attachments/assets/b1b7895f-a00a-49c1-bbe5-cf2faa144b7d" />
 
 ## 🔗 API Integration
 
