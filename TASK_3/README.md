@@ -30,6 +30,7 @@ npm run frontend
 ```
 
 The application will be available at: `http://localhost:5173`
+<img width="1540" height="713" alt="image" src="https://github.com/user-attachments/assets/adfb3be8-3aa8-4d6f-946e-36c824a1de92" />
 
 ## 🎨 Features
 
@@ -207,6 +208,7 @@ export default defineConfig({
 ### Modal Components
 - **New Task Modal**: Form for creating tasks
 - **Execution Result Modal**: Displays command output and task JSON
+<img width="1919" height="931" alt="image" src="https://github.com/user-attachments/assets/b1b7895f-a00a-49c1-bbe5-cf2faa144b7d" />
 
 ## 🔗 API Integration
 

@@ -54,7 +54,7 @@ git commit -m "Initial commit: Kaiburr Assessment Tasks"
 ### Step 3: Connect Local Repository to GitHub
 ```bash
 # Add GitHub as remote origin
-git remote add origin https://github.com/YOUR_USERNAME/kaiburr-assessment.git
+git remote add origin https://github.com/Kavin56/kaiburr-assessment.git
 
 # Rename default branch to main
 git branch -M main
